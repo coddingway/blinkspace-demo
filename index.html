@@ -833,6 +833,20 @@ nav {
 
 .approach-img-wrap:hover img { opacity: 0.9; filter: saturate(0.9); }
 
+.approach-video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.82;
+  filter: saturate(0.75) brightness(0.88);
+  transition: opacity 0.4s, filter 0.4s;
+  display: block;
+}
+
+.approach-img-wrap:hover .approach-video {
+  opacity: 0.95;
+  filter: saturate(0.95) brightness(0.95);
+}
+
 .approach-img-overlay {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -1628,7 +1642,15 @@ footer {
         <a href="#" class="btn-ghost" style="border-color:rgba(255,255,255,0.15);color:var(--dark-muted);">Discover our expertise →</a>
       </div>
       <div class="approach-img-wrap fade-up fade-up-delay-1">
-        <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=800&q=80" alt="Satellite dish at dusk" />
+        <video
+          class="approach-video"
+          src="hero-video.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
         <div class="approach-img-overlay">
           <p>"We operate where technology, policy, capital, and national interest converge."</p>
         </div>
