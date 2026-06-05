@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlinkSpace | Strategic Advisory for the Space & Defence Economy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0a0a0a;
+  --ink-2: #1c1c1e;
+  --ink-3: #2c2c2e;
+  --muted: #6e6e73;
+  --muted-2: #aeaeb2;
+  --surface: #f5f5f7;
+  --surface-2: #ffffff;
+  --accent: #0057ff;
+  --accent-dim: rgba(0,87,255,0.1);
+  --gold: #c9a84c;
+  --gold-dim: rgba(201,168,76,0.12);
+  --dark-bg: #07090f;
+  --dark-surface: #0f1219;
+  --dark-border: rgba(255,255,255,0.07);
+  --dark-text: #e8e8ed;
+  --dark-muted: rgba(255,255,255,0.45);
+  --border: rgba(0,0,0,0.08);
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --nav-h: 64px;
+  --px: 48px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --px: 20px;
+    --nav-h: 60px;
+  }
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--surface-2);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── NAV ─────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: var(--nav-h);
+  display: flex; align-items: center;
+  padding: 0 var(--px);
+  background: rgba(7,9,15,0.88);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--dark-border);
+}
+
+.nav-inner {
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  z-index: 201;
+  position: relative;
+}
+
+.nav-links {
+  display: flex; align-items: center; gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px;
+  color: var(--dark-muted);
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.nav-links a:hover { color: #fff; }
+
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 20px;
+  background: var(--accent);
+  color: #fff !important;
+  border-radius: 8px;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s !important;
+}
+
+.nav-cta:hover {
+  background: #0048d4 !important;
+  transform: translateY(-1px);
+}
+
+/* Hamburger */
+.nav-burger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px;
+  width: 40px; height: 40px;
+  background: none; border: none; cursor: pointer;
+  padding: 0;
+  z-index: 201;
+  position: relative;
+}
+
+.nav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+  transform-origin: center;
+}
+
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu drawer */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--nav-h); left: 0; right: 0; bottom: 0;
+  background: rgba(7,9,15,0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 199;
+  flex-direction: column;
+  padding: 40px var(--px);
+  gap: 0;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+.mobile-menu-links {
+  list-style: none;
+  display: flex; flex-direction: column;
+  border-top: 1px solid var(--dark-border);
+}
+
+.mobile-menu-links li a {
+  display: block;
+  padding: 20px 0;
+  font-family: var(--serif);
+  font-size: 28px;
+  color: var(--dark-text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--dark-border);
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+
+.mobile-menu-links li a:hover { color: var(--gold); }
+
+.mobile-menu-cta {
+  margin-top: 36px;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 28px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  width: fit-content;
+}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  background: var(--dark-bg);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0 var(--px);
+}
+
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 70% 50%, rgba(0,87,255,0.08) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.hero-content {
+  padding: calc(var(--nav-h) + 100px) 0 80px;
+  position: relative; z-index: 1;
+  max-width: 580px;
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  padding: 6px 14px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 40px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.hero h1 em { font-style: italic; color: var(--gold); }
+
+.hero-desc {
+  font-size: clamp(15px, 2vw, 17px);
+  color: var(--dark-muted);
+  line-height: 1.65;
+  max-width: 460px;
+  margin-bottom: 44px;
+  font-weight: 300;
+}
+
+.hero-actions {
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: #0048d4;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,87,255,0.35);
+}
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 20px;
+  color: var(--dark-muted);
+  border: 1px solid var(--dark-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.2s, border-color 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+  transform: translateY(-1px);
+}
+
+.hero-visual {
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  padding: calc(var(--nav-h) + 60px) 0 60px;
+}
+
+.globe-container {
+  width: 420px; height: 420px;
+  position: relative;
+}
+
+.globe-ring {
+  position: absolute; inset: -32px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,87,255,0.15);
+  animation: rotate-ring 30s linear infinite;
+}
+
+.globe-ring::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: -6px;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 12px rgba(0,87,255,0.8);
+}
+
+.globe-ring-2 {
+  position: absolute; inset: -64px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.1);
+  animation: rotate-ring 50s linear infinite reverse;
+}
+
+@keyframes rotate-ring {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.globe-img {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: saturate(0.8) brightness(0.9);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 32px 80px rgba(0,0,0,0.6),
+    inset 0 0 80px rgba(0,87,255,0.05);
+}
+
+.globe-stat {
+  position: absolute;
+  background: rgba(15,18,25,0.92);
+  border: 1px solid var(--dark-border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  backdrop-filter: blur(12px);
+}
+
+.globe-stat-1 { top: 12%; left: -40px; }
+.globe-stat-2 { bottom: 18%; right: -24px; }
+
+.globe-stat-num {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.globe-stat-label {
+  font-size: 11px;
+  color: var(--dark-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--dark-muted);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+  animation: float 3s ease-in-out infinite;
+}
+
+.hero-scroll::after {
+  content: '';
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
+}
+
+/* ── TRUST BAR ────────────────────────────────── */
+.trust-bar {
+  background: var(--dark-surface);
+  border-bottom: 1px solid var(--dark-border);
+  padding: 18px var(--px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.trust-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  min-width: max-content;
+}
+
+.trust-label {
+  font-size: 11px;
+  color: var(--dark-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
+.trust-items {
+  display: flex; align-items: center; gap: 36px;
+}
+
+.trust-item {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.trust-divider {
+  width: 1px; height: 12px;
+  background: var(--dark-border);
+  flex-shrink: 0;
+}
+
+/* ── SHARED LAYOUT ──────────────────────────────── */
+.section-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.section-label::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: currentColor;
+}
+
+/* ── FEATURES ───────────────────────────────────── */
+.features {
+  padding: 100px var(--px);
+  background: var(--surface-2);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.feature-card {
+  background: var(--surface-2);
+  padding: 40px 32px;
+  transition: background 0.2s;
+}
+
+.feature-card:hover { background: var(--surface); }
+
+.feature-icon {
+  width: 44px; height: 44px;
+  background: var(--accent-dim);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.feature-card h3 {
+  font-family: var(--serif);
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.feature-card p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+
+.feature-link {
+  font-size: 13px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+  letter-spacing: 0.01em;
+  transition: gap 0.2s;
+}
+
+.feature-link:hover { gap: 10px; }
+
+/* ── ABOUT ──────────────────────────────────────── */
+.about {
+  padding: 100px var(--px);
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.about::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,87,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-left h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 3.5vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.about-left h2 em { font-style: italic; color: var(--accent); }
+
+.about-left p {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+
+.about-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.about-stat {
+  padding: 24px 20px;
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.about-stat-num {
+  font-family: var(--serif);
+  font-size: 34px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.about-stat-label {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.about-quote {
+  padding: 28px 28px;
+  background: var(--ink);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-quote::before {
+  content: '"';
+  position: absolute;
+  top: -20px; left: 16px;
+  font-family: var(--serif);
+  font-size: 120px;
+  color: rgba(255,255,255,0.05);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.about-quote p {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--dark-text);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+
+.about-quote-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 500;
+  transition: gap 0.2s;
+  position: relative; z-index: 1;
+}
+
+.about-quote-cta:hover { gap: 10px; }
+
+/* ── WHY ────────────────────────────────────────── */
+.why {
+  padding: 100px var(--px);
+  background: var(--surface-2);
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.why-left h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+}
+
+.why-accent {
+  width: 32px; height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+.why-left p {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.why-right p {
+  font-size: 16px;
+  color: var(--ink-3);
+  line-height: 1.75;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
+.why-blockquote {
+  margin: 32px 0;
+  padding: 20px 24px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-dim);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.why-blockquote p {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--ink);
+  line-height: 1.55;
+  font-style: italic;
+  margin: 0 !important;
+}
+
+.why-cta-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 15px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: gap 0.2s;
+}
+
+.why-cta-link:hover { gap: 10px; }
+
+/* ── APPROACH ───────────────────────────────────── */
+.approach {
+  padding: 100px var(--px);
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.approach::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 70% at 60% 50%, rgba(0,87,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.approach-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+.approach-content h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--dark-text);
+  margin-bottom: 20px;
+}
+
+.approach-content p {
+  font-size: 15px;
+  color: var(--dark-muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+
+.approach-pillars {
+  display: flex; flex-direction: column; gap: 10px;
+  margin: 28px 0;
+}
+
+.approach-pillar {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.approach-pillar:hover { background: rgba(255,255,255,0.06); }
+
+.pillar-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 3px;
+  letter-spacing: 0.05em;
+  min-width: 24px;
+}
+
+.pillar-text h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark-text);
+  margin-bottom: 4px;
+}
+
+.pillar-text p {
+  font-size: 13px;
+  color: var(--dark-muted);
+  line-height: 1.55;
+  margin: 0 !important;
+}
+
+.approach-img-wrap {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+}
+
+.approach-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+  filter: saturate(0.6);
+  transition: opacity 0.4s, filter 0.4s;
+}
+
+.approach-img-wrap:hover img { opacity: 0.9; filter: saturate(0.9); }
+
+.approach-img-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px;
+  background: linear-gradient(to top, rgba(7,9,15,0.9) 0%, transparent 100%);
+}
+
+.approach-img-overlay p {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.4;
+  margin: 0 !important;
+}
+
+/* ── SERVICES ───────────────────────────────────── */
+.services {
+  padding: 100px var(--px);
+  background: var(--surface-2);
+}
+
+.services-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+
+.services-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.services-header h2 em { font-style: italic; color: var(--muted); }
+
+.services-header p {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+.services-category { margin-bottom: 48px; }
+
+.category-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  display: block;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.service-card {
+  background: var(--surface-2);
+  padding: 32px 28px;
+  transition: background 0.2s;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.service-card:hover { background: var(--surface); }
+
+.service-icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-dim);
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.service-card h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.service-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ── INTEL MAP ──────────────────────────────────── */
+.intel-map {
+  padding: 100px var(--px);
+  background: var(--dark-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.intel-map::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 30% 40%, rgba(201,168,76,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.intel-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.intel-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--dark-text);
+}
+
+.intel-header h2 em { font-style: italic; color: var(--gold); }
+
+.intel-header-desc {
+  font-size: 13px;
+  color: var(--dark-muted);
+  max-width: 240px;
+  text-align: right;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.intel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--dark-border);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 36px;
+}
+
+.intel-stat {
+  background: var(--dark-surface);
+  padding: 24px 20px;
+}
+
+.intel-stat-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 6px;
+}
+
+.intel-stat-num sup {
+  font-size: 18px;
+  vertical-align: super;
+  color: var(--gold);
+}
+
+.intel-stat-label {
+  font-size: 11px;
+  color: var(--dark-muted);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.intel-filters {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  padding: 7px 16px;
+  border: 1px solid var(--dark-border);
+  border-radius: 40px;
+  font-size: 13px;
+  color: var(--dark-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--sans);
+  min-height: 36px;
+}
+
+.filter-tab:hover, .filter-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.intel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--dark-border);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+.intel-card {
+  background: var(--dark-surface);
+  padding: 22px;
+  transition: background 0.2s;
+}
+
+.intel-card:hover { background: rgba(255,255,255,0.04); }
+
+.intel-card-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 10px;
+  margin-bottom: 10px;
+}
+
+.intel-card h4 {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--dark-text);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.intel-badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-govt { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+.badge-startup { background: rgba(0,87,255,0.12); color: #6ea8ff; border: 1px solid rgba(0,87,255,0.2); }
+.badge-psu { background: rgba(255,255,255,0.06); color: var(--dark-muted); border: 1px solid var(--dark-border); }
+
+.intel-card p {
+  font-size: 13px;
+  color: var(--dark-muted);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.intel-card-meta {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: rgba(255,255,255,0.22);
+  letter-spacing: 0.04em;
+}
+
+.intel-coming-soon {
+  padding: 36px;
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed var(--dark-border);
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.intel-coming-soon p {
+  font-size: 14px;
+  color: var(--dark-muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  max-width: 440px;
+  margin-left: auto; margin-right: auto;
+}
+
+/* ── CTA ────────────────────────────────────────── */
+.cta-section {
+  padding: 120px var(--px);
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(0,87,255,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cta-inner {
+  max-width: 640px; margin: 0 auto;
+  text-align: center;
+  position: relative; z-index: 1;
+}
+
+.cta-inner h2 {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.cta-inner h2 em { font-style: italic; color: var(--accent); }
+
+.cta-inner p {
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.cta-actions {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-primary-dark {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 30px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.btn-primary-dark:hover {
+  background: var(--ink-2);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.btn-outline-dark {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 15px 24px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.2s, border-color 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-outline-dark:hover {
+  color: var(--ink);
+  border-color: rgba(0,0,0,0.25);
+  transform: translateY(-1px);
+}
+
+/* ── FOOTER ─────────────────────────────────────── */
+footer {
+  background: var(--dark-bg);
+  border-top: 1px solid var(--dark-border);
+  padding: 64px var(--px) 36px;
+}
+
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 56px;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  color: var(--dark-muted);
+  line-height: 1.65;
+  margin-top: 14px;
+  max-width: 220px;
+  font-weight: 300;
+}
+
+.footer-col h4 {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.footer-links a {
+  font-size: 14px;
+  color: var(--dark-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 300;
+}
+
+.footer-links a:hover { color: #fff; }
+
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 28px;
+  border-top: 1px solid var(--dark-border);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-legal {
+  font-size: 12px;
+  color: rgba(255,255,255,0.2);
+}
+
+.footer-socials { display: flex; gap: 12px; }
+
+.footer-social-link {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--dark-border);
+  border-radius: 8px;
+  color: var(--dark-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.2s;
+  min-width: 36px;
+}
+
+.footer-social-link:hover {
+  border-color: rgba(255,255,255,0.2);
+  color: #fff;
+  background: rgba(255,255,255,0.05);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+.fade-up-delay-1 { transition-delay: 0.1s; }
+.fade-up-delay-2 { transition-delay: 0.2s; }
+
+/* ────────────────────────────────────────────────── */
+/* ── RESPONSIVE BREAKPOINTS ──────────────────────── */
+/* ────────────────────────────────────────────────── */
+
+/* ── TABLET ≤1024px ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero { grid-template-columns: 1fr; padding-top: 0; }
+  .hero-content { padding: calc(var(--nav-h) + 80px) 0 40px; max-width: 100%; }
+  .hero-visual { display: none; }
+  .hero-scroll { display: none; }
+
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-right { padding-top: 0; }
+
+  .why-grid { grid-template-columns: 1fr; gap: 40px; }
+  .why-left { max-width: 100%; }
+
+  .approach-grid { grid-template-columns: 1fr; gap: 48px; }
+  .approach-img-wrap { aspect-ratio: 16/9; max-height: 360px; }
+
+  .services-header { grid-template-columns: 1fr; gap: 20px; }
+
+  .intel-header { grid-template-columns: 1fr; }
+  .intel-header-desc { text-align: left; max-width: 100%; }
+  .intel-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .feature-grid { grid-template-columns: 1fr 1fr; }
+  .feature-grid .feature-card:last-child { grid-column: 1 / -1; }
+
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-brand p { max-width: 100%; }
+}
+
+/* ── MOBILE ≤768px ──────────────────────────────── */
+@media (max-width: 768px) {
+  /* Nav */
+  .nav-links { display: none; }
+  .nav-burger { display: flex; }
+  .mobile-menu { display: flex; }
+
+  /* Hero */
+  .hero { grid-template-columns: 1fr; min-height: auto; padding-bottom: 0; }
+  .hero-content { padding: calc(var(--nav-h) + 64px) 0 72px; }
+  .hero h1 { font-size: 36px; }
+  .hero-desc { font-size: 16px; max-width: 100%; margin-bottom: 36px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .btn-primary, .btn-ghost { width: 100%; justify-content: center; padding: 16px 20px; font-size: 15px; }
+
+  /* Trust bar */
+  .trust-bar { padding: 14px var(--px); }
+  .trust-bar-inner { gap: 16px; }
+  .trust-items { gap: 24px; }
+
+  /* Features */
+  .features { padding: 72px var(--px); }
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature-grid .feature-card:last-child { grid-column: auto; }
+  .feature-card { padding: 28px 24px; }
+  .feature-card h3 { font-size: 20px; }
+  .section-label { margin-bottom: 28px; }
+
+  /* About */
+  .about { padding: 72px var(--px); }
+  .about-grid { gap: 36px; }
+  .about-left h2 { font-size: 30px; }
+  .about-stat-row { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .about-stat { padding: 20px 16px; }
+  .about-stat-num { font-size: 28px; }
+  .about-quote { padding: 24px 20px; }
+  .about-quote p { font-size: 16px; }
+
+  /* Why */
+  .why { padding: 72px var(--px); }
+  .why-grid { gap: 32px; }
+  .why-left h2 { font-size: 28px; }
+  .why-right p { font-size: 15px; }
+  .why-blockquote p { font-size: 16px; }
+
+  /* Approach */
+  .approach { padding: 72px var(--px); }
+  .approach-grid { gap: 40px; }
+  .approach-content h2 { font-size: 28px; }
+  .approach-img-wrap { aspect-ratio: 3/2; }
+  .approach-img-overlay p { font-size: 16px; }
+  .approach-pillars { gap: 8px; }
+
+  /* Services */
+  .services { padding: 72px var(--px); }
+  .services-header { margin-bottom: 40px; }
+  .services-header h2 { font-size: 36px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card { padding: 24px 20px; }
+
+  /* Intel map */
+  .intel-map { padding: 72px var(--px); }
+  .intel-header { margin-bottom: 32px; }
+  .intel-header h2 { font-size: 30px; }
+  .intel-stats { grid-template-columns: repeat(2, 1fr); }
+  .intel-stat { padding: 20px 16px; }
+  .intel-stat-num { font-size: 28px; }
+  .intel-grid { grid-template-columns: 1fr; }
+  .intel-filters { gap: 6px; }
+  .filter-tab { font-size: 12px; padding: 6px 14px; }
+  .intel-coming-soon { padding: 28px 20px; }
+  .btn-primary { width: auto; justify-content: flex-start; padding: 12px 24px; font-size: 14px; }
+
+  /* CTA */
+  .cta-section { padding: 80px var(--px); }
+  .cta-inner h2 { font-size: 32px; }
+  .cta-inner p { font-size: 15px; margin-bottom: 32px; }
+  .cta-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary-dark, .btn-outline-dark {
+    width: 100%; justify-content: center;
+    padding: 16px 20px; font-size: 15px;
+  }
+
+  /* Footer */
+  footer { padding: 56px var(--px) 32px; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; gap: 20px; }
+}
+
+/* ── SMALL MOBILE ≤480px ────────────────────────── */
+@media (max-width: 480px) {
+  .hero h1 { font-size: 30px; }
+  .hero-eyebrow { font-size: 10px; }
+
+  .about-stat-row { grid-template-columns: 1fr; }
+
+  .intel-stats { grid-template-columns: 1fr 1fr; }
+  .intel-stat-num { font-size: 26px; }
+
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-brand { grid-column: auto; }
+
+  .services-header h2 { font-size: 32px; }
+  .cta-inner h2 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">BlinkSpace</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#intel">Intelligence Map</a></li>
+      <li><a href="#" class="nav-cta">Schedule a Briefing →</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" role="dialog" aria-label="Navigation menu">
+  <ul class="mobile-menu-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#intel">Intelligence Map</a></li>
+  </ul>
+  <a href="#" class="mobile-menu-cta">Schedule a Briefing →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+
+  <div class="hero-content fade-up">
+    <div class="hero-eyebrow">Strategic Advisory</div>
+    <h1>Bridging India with<br><em>Global Space &</em><br>Defence Economy</h1>
+    <p class="hero-desc">We help you unlock capital, access markets, and build cross-border relationships across the US, Europe, and the Gulf.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Schedule a Briefing →</a>
+      <a href="#about" class="btn-ghost">Learn our approach</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="globe-container">
+      <div class="globe-ring-2"></div>
+      <div class="globe-ring"></div>
+      <img class="globe-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/800px-The_Blue_Marble_%28remastered%29.jpg" alt="Earth globe" />
+      <div class="globe-stat globe-stat-1">
+        <div class="globe-stat-num">220+</div>
+        <div class="globe-stat-label">Companies mapped</div>
+      </div>
+      <div class="globe-stat globe-stat-2">
+        <div class="globe-stat-num">3</div>
+        <div class="globe-stat-label">Global corridors</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <span class="trust-label">Active corridors</span>
+    <div class="trust-items">
+      <span class="trust-item">India — United States</span>
+      <div class="trust-divider"></div>
+      <span class="trust-item">India — Europe</span>
+      <div class="trust-divider"></div>
+      <span class="trust-item">India — Gulf Region</span>
+      <div class="trust-divider"></div>
+      <span class="trust-item">Space · Defence · Dual-Use</span>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="about">
+  <div class="section-inner">
+    <div class="section-label">What we do</div>
+    <div class="feature-grid">
+      <div class="feature-card fade-up">
+        <div class="feature-icon">🏛️</div>
+        <h3>Unlock Capital</h3>
+        <p>We connect space and defence companies to the institutional investors, sovereign funds, and strategic partners who understand the sector and can move fast.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-1">
+        <div class="feature-icon">🌐</div>
+        <h3>Access Markets</h3>
+        <p>Entering the US, European, or Gulf defence markets means navigating policies, procurement cycles, and relationship networks that take years to build. We cut that timeline.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+      <div class="feature-card fade-up fade-up-delay-2">
+        <div class="feature-icon">🤝</div>
+        <h3>Build Partnerships</h3>
+        <p>Joint ventures, teaming agreements, licensing deals. We structure and broker cross-border partnerships between companies that rarely get in the same room.</p>
+        <a href="#" class="feature-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="advisory">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-left fade-up">
+        <div class="section-label">About us</div>
+        <h2>Advisory built from the <em>inside out</em></h2>
+        <p>BlinkSpace is not built by management consultants observing the space and defence industries from the outside. It is built by professionals who have spent their careers inside these sectors — developing technologies, shaping policy, structuring capital, and executing cross-border commercialisation strategies across India, Europe, and the United States.</p>
+        <p>That history is not a credential. It is the work itself.</p>
+      </div>
+      <div class="about-right fade-up fade-up-delay-1">
+        <div class="about-stat-row">
+          <div class="about-stat">
+            <div class="about-stat-num">15+</div>
+            <div class="about-stat-label">Years inside the sector</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">3</div>
+            <div class="about-stat-label">Continents, active mandates</div>
+          </div>
+        </div>
+        <div class="about-quote">
+          <p>"The ecosystem lacks a critical layer of infrastructure: specialised advisory that bridges technology companies, government agencies, and institutional capital with the regulatory fluency and cross-market networks required to operate at scale."</p>
+          <a href="#" class="about-quote-cta">BlinkSpace exists to fill that gap →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="section-inner">
+    <div class="why-grid">
+      <div class="why-left fade-up">
+        <div class="section-label">Context</div>
+        <h2>Why BlinkSpace Exists</h2>
+        <div class="why-accent"></div>
+        <p>The space economy is undergoing a structural shift. What that means for companies trying to raise capital, enter new markets, and find strategic partners is not obvious — until you have been inside it.</p>
+      </div>
+      <div class="why-right fade-up fade-up-delay-1">
+        <p>India's liberalisation through IN-SPACe, Europe's push for strategic autonomy in space, the US commercial space economy's maturation, and the rapid emergence of space programmes across the Indo-Pacific and Gulf regions are reshaping where capital flows, where technology originates, and where markets open.</p>
+        <p>Simultaneously, dual-use technologies — from Earth observation and satellite communications to positioning, navigation, and advanced materials — now serve commercial, institutional, and national security markets through the same value chains.</p>
+        <div class="why-blockquote">
+          <p>"Companies that understand this convergence will define the next decade of the space economy. Those that do not will be defined by it."</p>
+        </div>
+        <a href="#services" class="why-cta-link">See how we work →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section class="approach">
+  <div class="section-inner">
+    <div class="approach-grid">
+      <div class="approach-content fade-up">
+        <div class="section-label" style="color:var(--gold);">Our approach</div>
+        <h2>Deep industry expertise. No generalist frameworks.</h2>
+        <p>We combine sector knowledge with an active global network. Our methodology is built on three principles: discretion, analytical rigour, and bespoke representation.</p>
+        <div class="approach-pillars">
+          <div class="approach-pillar">
+            <span class="pillar-num">01</span>
+            <div class="pillar-text">
+              <h4>Sector-first intelligence</h4>
+              <p>We only work within space, defence, and dual-use technology. No generalist approach. No learning on your time.</p>
+            </div>
+          </div>
+          <div class="approach-pillar">
+            <span class="pillar-num">02</span>
+            <div class="pillar-text">
+              <h4>Relationship-led execution</h4>
+              <p>Every mandate runs through relationships built over years — with investors, agencies, procurement teams, and technology leads.</p>
+            </div>
+          </div>
+          <div class="approach-pillar">
+            <span class="pillar-num">03</span>
+            <div class="pillar-text">
+              <h4>Cross-border by design</h4>
+              <p>Our operating model is built for multi-jurisdiction mandates from the start. Not an afterthought.</p>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="btn-ghost" style="border-color:rgba(255,255,255,0.15);color:var(--dark-muted);">Discover our expertise →</a>
+      </div>
+      <div class="approach-img-wrap fade-up fade-up-delay-1">
+        <img src="https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?w=800&q=80" alt="Satellite dish at dusk" />
+        <div class="approach-img-overlay">
+          <p>"We operate where technology, policy, capital, and national interest converge."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-inner">
+    <div class="services-header fade-up">
+      <h2>Strategic<br><em>Advisory.</em></h2>
+      <p>High-fidelity solutions for commercialisation, policy engagement, and technological readiness across the global space and defence economy.</p>
+    </div>
+    <div class="services-category fade-up">
+      <span class="category-label">Space Advisory — 04 service areas</span>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">📡</div>
+          <h3>Market Intelligence</h3>
+          <p>Structured, sector-specific intelligence on procurement pipelines, technology trends, regulatory shifts, and competitor positioning across target geographies.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">💰</div>
+          <h3>Capital Access & Investment Strategy</h3>
+          <p>Investor mapping, deal structuring, and capital strategy combining due diligence rigour with relationship-led introductions to growth capital and strategic investors.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🌍</div>
+          <h3>Market Entry & Global Expansion</h3>
+          <p>Market entry frameworks covering regulatory pathways, partner identification, GTM strategy, and local representation across the US, Europe, and Gulf markets.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🤝</div>
+          <h3>Strategic Partnerships & Representation</h3>
+          <p>We identify, structure, and represent your interests in joint ventures, teaming agreements, and licensing arrangements with international counterparts and institutions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEL MAP -->
+<section class="intel-map" id="intel">
+  <div class="section-inner">
+    <div class="intel-header fade-up">
+      <div>
+        <div class="section-label" style="color:var(--gold);">Sector intelligence</div>
+        <h2>India's Space & Defence<br><em>Intelligence Map</em></h2>
+      </div>
+      <p class="intel-header-desc">A living directory of Government entities, PSUs, and Tier 1–3 companies across the ecosystem.</p>
+    </div>
+    <div class="intel-stats fade-up">
+      <div class="intel-stat">
+        <div class="intel-stat-num">220<sup>+</sup></div>
+        <div class="intel-stat-label">Entities mapped</div>
+      </div>
+      <div class="intel-stat">
+        <div class="intel-stat-num">14</div>
+        <div class="intel-stat-label">Govt. agencies</div>
+      </div>
+      <div class="intel-stat">
+        <div class="intel-stat-num">6</div>
+        <div class="intel-stat-label">PSU entities</div>
+      </div>
+      <div class="intel-stat">
+        <div class="intel-stat-num">200<sup>+</sup></div>
+        <div class="intel-stat-label">Private companies</div>
+      </div>
+    </div>
+    <div class="intel-filters fade-up">
+      <button class="filter-tab active">All</button>
+      <button class="filter-tab">Government</button>
+      <button class="filter-tab">PSU</button>
+      <button class="filter-tab">Startup</button>
+      <button class="filter-tab">Space</button>
+      <button class="filter-tab">Defence</button>
+    </div>
+    <div class="intel-grid fade-up">
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h4>ISRO — Indian Space Research Organisation</h4>
+          <span class="intel-badge badge-govt">Govt.</span>
+        </div>
+        <p>Primary space agency. Operates launch vehicles, satellites, and planetary missions. Key interface for commercial launch partnerships and technology transfer.</p>
+        <div class="intel-card-meta"><span>Bengaluru</span><span>·</span><span>Space · Launch</span></div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h4>DRDO — Defence Research & Development Organisation</h4>
+          <span class="intel-badge badge-govt">Govt.</span>
+        </div>
+        <p>52 laboratories covering aeronautics, electronics, missiles, and materials. Key procurement and co-development partner for defence technology companies.</p>
+        <div class="intel-card-meta"><span>New Delhi</span><span>·</span><span>Defence · R&D</span></div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h4>Agnikul Cosmos</h4>
+          <span class="intel-badge badge-startup">Startup</span>
+        </div>
+        <p>First company to build and launch a fully 3D-printed rocket engine. Developing Agnibaan, a semi-cryogenic launch vehicle for small satellite deployments.</p>
+        <div class="intel-card-meta"><span>Chennai</span><span>·</span><span>Launch · NewSpace</span></div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h4>IN-SPACe</h4>
+          <span class="intel-badge badge-govt">Govt.</span>
+        </div>
+        <p>Regulatory interface between ISRO and the private sector. Issues authorisations for space activities and facilitates access to ISRO's facilities and expertise.</p>
+        <div class="intel-card-meta"><span>Ahmedabad</span><span>·</span><span>Regulatory</span></div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h4>Pixxel</h4>
+          <span class="intel-badge badge-startup">Startup</span>
+        </div>
+        <p>Building a constellation of hyperspectral Earth observation satellites. Serves agriculture, energy, and environmental monitoring markets globally.</p>
+        <div class="intel-card-meta"><span>Bengaluru</span><span>·</span><span>EO · Data</span></div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-card-header">
+          <h4>HAL — Hindustan Aeronautics Limited</h4>
+          <span class="intel-badge badge-psu">PSU</span>
+        </div>
+        <p>India's largest defence PSU. Manufactures aircraft, helicopters, and aero-engines. Strategic partner for international aerospace and defence OEMs.</p>
+        <div class="intel-card-meta"><span>Bengaluru</span><span>·</span><span>Aerospace · Defence</span></div>
+      </div>
+    </div>
+    <div class="intel-coming-soon fade-up">
+      <p>The full directory — 220+ entities with detailed profiles, funding history, and relationship maps — is available to BlinkSpace clients.</p>
+      <a href="#" class="btn-primary" style="margin:0 auto;">Request access →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <div class="cta-inner fade-up">
+      <div class="section-label" style="justify-content:center;margin-bottom:20px;">Work with us</div>
+      <h2>Ready to move<br><em>in this market?</em></h2>
+      <p>A briefing takes 45 minutes. We come prepared with an honest view of your opportunity, the obstacles, and what a realistic path forward looks like.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn-primary-dark">Schedule a Briefing →</a>
+        <a href="#" class="btn-outline-dark">Download our approach</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="font-family:var(--serif);font-size:22px;color:#fff;letter-spacing:-0.02em;">BlinkSpace</div>
+        <p>Premium strategic advisory for the global space and defence economy. Expert guidance for the future of space.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Advisory</h4>
+        <ul class="footer-links">
+          <li><a href="#">Market Intelligence</a></li>
+          <li><a href="#">Capital Access</a></li>
+          <li><a href="#">Market Entry</a></li>
+          <li><a href="#">Partnerships</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Our Approach</a></li>
+          <li><a href="#">Intelligence Map</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">© 2025 BlinkSpace. All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="#" class="footer-social-link" title="LinkedIn">in</a>
+        <a href="#" class="footer-social-link" title="Twitter/X">𝕏</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Filter tabs
+  document.querySelectorAll('.filter-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Mobile nav
+  const burger = document.querySelector('.nav-burger');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const body = document.body;
+
+  burger.addEventListener('click', () => {
+    const isOpen = burger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', isOpen);
+    burger.setAttribute('aria-expanded', isOpen);
+    body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // Close mobile menu on link click
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      burger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    });
+  });
+</script>
+</body>
+</html>
